@@ -1,0 +1,28 @@
+body {
+	background: #334454;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+}
+h1 {
+	font-size: 60px; font-weight: bold; margin-bottom: 0.5em;
+}
+
+.nav-sidebar {
+	position: absolute;
+	left: 0;
+	top:53px;
+	width:20%;
+	height: 90%;
+	background: #ededed;
+	overflow-y: scroll;
+}
+.nav-sidebar ul {
+	margin: 10px;
+}
+.nav-sidebar li a {
+	font-size: 9px;
+	padding: 5px 7px;
+}
+.navbar {
+	border-radius: 0;
+}
