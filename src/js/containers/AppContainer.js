@@ -1,7 +1,5 @@
 import React from 'react';
-import '../../sass/App.sass';
 import AppComponent from '../components/AppComponent';
-
 import API from '../modules/API';
 
 const INITIAL_STATE = {

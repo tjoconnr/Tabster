@@ -1,12 +1,20 @@
 import React from 'react';
-import SongLink from './SongLink';
-import { PageHeader } from 'react-bootstrap';
+import SongNavigation from './SongNavigation';
+import { PageHeader, Grid, Breadcrumb } from 'react-bootstrap';
 
 const SongDashboard = ({ songs }) => (
-	<div>
+	<Grid fluid={true}>
+		<Breadcrumb>
+            <Breadcrumb.Item>
+                Home
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+                Songs
+            </Breadcrumb.Item>           
+        </Breadcrumb>
 		<PageHeader>Songs{ songs ? ': ' + songs.length : null } </PageHeader>
-		{songs.map((song) => <SongLink key={song._id} song={song} /> )}
-	</div>
+		<SongNavigation songs={songs} />
+	</Grid>
 );
 export default SongDashboard;
 
