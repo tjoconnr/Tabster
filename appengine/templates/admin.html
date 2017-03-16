@@ -1,0 +1,7 @@
+{% extends "_master.html" %}
+{% block body_html %}
+<div class="container-fluid">
+	<h2>Server State</h2>
+	<pre>{{ appState|json(sort_keys=True, indent=4) }}</pre>
+</div>
+{% endblock %}
