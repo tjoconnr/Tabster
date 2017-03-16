@@ -1,5 +1,5 @@
 application: omega-tabster
-version: v1
+version: beta
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -16,7 +16,7 @@ libraries:
   version: latest
 
 handlers:
-- url: /img/*\.png
+- url: /img/*.png
   static_dir: static/img
   mime_type: image/png
 
@@ -29,11 +29,14 @@ handlers:
 - url: /css/*
   static_dir: static/css
 
-- url: /robots\.txt
+- url: /bundle/*
+  static_dir: static/bundle
+
+- url: /robots.txt
   static_files: static/robots.txt
   upload: static/robots.txt
 
-- url: /favicon\.ico
+- url: /favicon.ico
   static_files: static/favicon.ico
   upload: static/favicon.ico
 
@@ -44,11 +47,11 @@ handlers:
   script: main.app
   login: admin
 
-- url: /.+
+- url: /a/.*
   script: main.app
   login: required
 
-- url: /
+- url: /.*
   script: main.app
 
 skip_files:

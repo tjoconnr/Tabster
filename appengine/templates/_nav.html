@@ -10,7 +10,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{% if appState.user %}{{ appState.auth.home }}{% else %}{% endif %}">
+      <a class="navbar-brand" href="{% if appState.user %}{{ appState.auth.home }}{% else %}/{% endif %}">
         Tabster
       </a>
 
@@ -19,16 +19,6 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-      {% if appState.user %}
-      <ul class="nav navbar-nav ">
-         <li role="presentation" {% if page == "home" %}class="active"{% endif %}>
-          <a href="{{ appState.auth.home }}" title="Home" data-toggle="tooltip">Home</a>
-        </li>
-      </ul>
-      {% else %}
-
-      {% endif %}
 
       <ul class="nav navbar-nav navbar-right ">
       {% if appState.auth.isAdmin %}

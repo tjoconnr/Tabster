@@ -3,7 +3,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     color: white;
 }
-h1 {
+h1.jumbo {
 	font-size: 60px; font-weight: bold; margin-bottom: 0.5em;
 }
 

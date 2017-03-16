@@ -6,15 +6,12 @@ from .auth import do_login
 
 class PageHandler(JinjaHandler):
     def get(self, endpoint):
-
         if endpoint == "":
             endpoint = "index"
-
-        if endpoint == "login":
+        elif endpoint == "login":
             do_login(self)
-
-        if endpoint.find('a/') == 0:
+        elif endpoint.find('a/') == 0:
             endpoint = "react"
-
+        elif not endpoint in VALID_PAGES:
+            self.redirect('/404?msg=%s' % endpoint)
         self.render(endpoint)
-
