@@ -7,7 +7,7 @@ import SongNavigation from './SongNavigation';
 const SongDashboard = ({ songs }) => (
 	<Grid fluid={true}>
 		<Breadcrumb>
-            <li><Link to="/a/home">Home</Link></li>
+            <li><Link to="/a/">Home</Link></li>
             <Breadcrumb.Item>
                 Songs
             </Breadcrumb.Item>           

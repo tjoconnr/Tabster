@@ -11,10 +11,10 @@ window.on
 render(
   <Router history={browserHistory}>
     <Route path="/a/" component={AppContainer}>
-        <Route path="/a/home" component={Home}  />
+        <IndexRoute component={Home}  />
         <Route path="/a/songs/" component={SongDashboard} />    
         <Route path="/a/songs/:songId" component={SongView} />    
-        <Redirect from="*" to="/a/home" />
+        <Redirect from="*" to="/a/" />
     </Route>
   </Router>, document.getElementById('react-app')
 );

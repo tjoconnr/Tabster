@@ -15,7 +15,7 @@ const SongView = ({ songs, params }) => {
                 </Col>
                 <Col lg={10} md={9}>
                     <Breadcrumb>
-                        <li><Link to="/a/home">Home</Link></li>
+                        <li><Link to="/a/">Home</Link></li>
                         <li><Link to="/a/songs/">Songs</Link></li>
                         <Breadcrumb.Item>{song ? song.name : ''}</Breadcrumb.Item>
                     </Breadcrumb>    
