@@ -12,7 +12,8 @@ const Home = ({ user }) => (
             </Breadcrumb.Item>
         </Breadcrumb>
 		<PageHeader>Welcome { user ? user.name : ''}</PageHeader>        
-		<Link to="/a/songs/">Songs</Link>
+        <img src={user ? user.avatar : null } className="img-circle" />
+		<Link to="/a/songs/" className="btn btn-default btn-lg">Browse Songs</Link>
 	</Grid>
 );
 export default Home;
