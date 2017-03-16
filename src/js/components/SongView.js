@@ -8,16 +8,17 @@ const SongView = ({ songs, params }) => {
     const song = songs.filter(song => song._id == params.songId)[0];
     return  (      
         <Grid fluid={true}>
-            <Breadcrumb>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <li><Link to="/a/">Songs</Link></li>
-                <Breadcrumb.Item>{song ? song.name : ''}</Breadcrumb.Item>
-            </Breadcrumb>                        
+                                
             <Row>
                 <Col lg={2} md={3}>
                     <SongNavigation songs={songs} />
                 </Col>
                 <Col lg={10} md={9}>
+                    <Breadcrumb>
+                        <li><Link to="/a/home">Home</Link></li>
+                        <li><Link to="/a/songs/">Songs</Link></li>
+                        <Breadcrumb.Item>{song ? song.name : ''}</Breadcrumb.Item>
+                    </Breadcrumb>    
                     <div>
                         <input readOnly className="form-control input-lg" value={song ? song.name : ''} />                
                     </div>

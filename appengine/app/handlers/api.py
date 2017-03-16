@@ -62,7 +62,7 @@ class ApiHandler(webapp2.RequestHandler):
             if item_id:
                 resp = MyModel.get_by_id(int(item_id)).to_dict()
             else:
-                resp = [j.to_dict() for j in MyModel.query().fetch(None)]
+                resp = [j.to_dict() for j in MyModel.query().order(MyModel.name).fetch(None)]
 
         self.response.out.write(json.dumps(resp, indent=5))
 

@@ -1,13 +1,13 @@
 import React from 'react';
-import SongNavigation from './SongNavigation';
 import { PageHeader, Grid, Breadcrumb } from 'react-bootstrap';
+import { Link } from 'react-router';
+
+import SongNavigation from './SongNavigation';
 
 const SongDashboard = ({ songs }) => (
 	<Grid fluid={true}>
 		<Breadcrumb>
-            <Breadcrumb.Item>
-                Home
-            </Breadcrumb.Item>
+            <li><Link to="/a/home">Home</Link></li>
             <Breadcrumb.Item>
                 Songs
             </Breadcrumb.Item>           

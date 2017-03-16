@@ -1,22 +1,28 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
 
-const NavigationMain = () => (
+const NavigationMain = ({ user, auth }) => (
 <Navbar inverse={true} fluid={true} fixedTop={true}>
   <Navbar.Header>
     <Navbar.Brand>
-      <a href="#">Tabster</a>
+      <Link to="/a/">Tabster</Link>
     </Navbar.Brand>
   </Navbar.Header>
   <Nav>
-    <NavItem eventKey={1} href="#">Link</NavItem>
-    <NavItem eventKey={2} href="#">Link</NavItem>
-    <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-      <MenuItem eventKey={3.1}>Action</MenuItem>
-      <MenuItem eventKey={3.2}>Another action</MenuItem>
+    <LinkContainer to="/a/home">
+      <NavItem>Home</NavItem>
+    </LinkContainer>
+    <LinkContainer to="/a/songs/">
+      <NavItem>Songs</NavItem>
+    </LinkContainer>
+  </Nav>
+  <Nav pullRight>
+    <NavDropdown eventKey={3} title={user ? user.name : '...'} id="basic-nav-dropdown">
       <MenuItem eventKey={3.3}>Something else here</MenuItem>
-      <MenuItem divider />
-      <MenuItem eventKey={3.4}>Separated link</MenuItem>
+      <MenuItem divider />      
+      <MenuItem href={auth ? auth.logoutUrl : '/'}>Logout</MenuItem>      
     </NavDropdown>
   </Nav>
 </Navbar>

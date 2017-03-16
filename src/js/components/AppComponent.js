@@ -6,7 +6,7 @@ import NavigationMain from './NavigationMain';
 
 const AppComponent = ({ props, children }) => (
   <div id="app-component">
-  	<NavigationMain />
+  	<NavigationMain {...props} />
     {children}        
   </div>
 );

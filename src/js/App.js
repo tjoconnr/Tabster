@@ -5,13 +5,16 @@ import { Router, Route, Redirect, IndexRedirect, IndexRoute, browserHistory, Lin
 import AppContainer from './containers/AppContainer';
 import SongDashboard from './components/SongDashboard';
 import SongView from './components/SongView';
+import Home from './components/Home';
 
+window.on
 render(
   <Router history={browserHistory}>
     <Route path="/a/" component={AppContainer}>
-        <IndexRoute component={SongDashboard}  />
-        <Route path="/a/song/:songId" component={SongView} />    
-        <Redirect from="*" to="/a/" />
+        <Route path="/a/home" component={Home}  />
+        <Route path="/a/songs/" component={SongDashboard} />    
+        <Route path="/a/songs/:songId" component={SongView} />    
+        <Redirect from="*" to="/a/home" />
     </Route>
   </Router>, document.getElementById('react-app')
 );
