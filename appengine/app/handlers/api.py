@@ -7,8 +7,12 @@ from app.tests import run_tests
 from .constants import TOKEN_HEADER
 from .auth import authorize_api, get_app_state
 
+from app.models import *
 def string_to_model_class(s):
-    return eval(s.title())
+    try:
+        return eval(s.title())
+    except:
+        pass
 
 class ApiHandler(webapp2.RequestHandler):
 
@@ -28,20 +32,40 @@ class ApiHandler(webapp2.RequestHandler):
             self.response.out.write("OK")
             return
 
+        if endpoint == "test":
+            run_tests(self)
+            return
+
         user = authorize_api(self)
         if not user:
             return
 
+        item_id = None
+        if endpoint.find("/") > 0:
+            item_id = endpoint.split('/')[1]
+            endpoint = endpoint.split('/')[0]
+
+        logging.info(item_id)
+
+        resp = {}
         if endpoint == "user":
-            self.response.out.write(json.dumps(user.to_dict(), indent=5))
-            return
+            resp = user.to_dict()
+        elif endpoint == "authorize":
+            resp = get_app_state(self)
+        else:
+            MyModel = string_to_model_class(endpoint)
+            if not MyModel:
+                self.error(500)
+                self.response.out.write("Model not found: %s" % endpoint)
+                return
 
-        if endpoint == "authorize":
-            self.response.out.write(json.dumps(get_app_state(self), indent=5))
-            return
+            if item_id:
+                resp = MyModel.get_by_id(int(item_id)).to_dict()
+            else:
+                resp = [j.to_dict() for j in MyModel.query().fetch(None)]
 
-        if endpoint == "test":
-            run_tests(self)
+        self.response.out.write(json.dumps(resp, indent=5))
+
 
     def post(self, endpoint):
         logging.info("ApiHandler - POST /%s" % (endpoint))
@@ -52,7 +76,7 @@ class ApiHandler(webapp2.RequestHandler):
             return
 
         # Parse string into Model name
-        MyModel = model_from_string(endpoint)
+        MyModel = string_to_model_class(endpoint)
         db_item = MyModel(**self.request.POST)
         db_item.put()
         self.response.write(json.dumps(db_item.to_dict()))

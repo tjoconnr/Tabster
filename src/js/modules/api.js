@@ -24,5 +24,11 @@ const API = {
     fetchAuth(){
         return this.doFetch('/api/v1/authorize');
     },
+    fetchSongs(){
+        return this.doFetch('/api/v1/song');
+    },
+    fetchSong(songId){
+        return this.doFetch('/api/v1/song/'+songId);
+    },
 };
 export default API;

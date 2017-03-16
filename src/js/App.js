@@ -1,80 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Redirect, IndexRedirect, IndexRoute, browserHistory } from 'react-router';
-
-import { PageHeader } from 'react-bootstrap';
-
-import API from './modules/api';
+import { Router, Route, Redirect, IndexRedirect, IndexRoute, browserHistory, Link } from 'react-router';
 
 import '../sass/App.sass';
-
-const AppContainer = React.createClass({
-    render() {
-        return (
-          <div className="container-fluid">
-            {this.props.children}
-          </div>
-        );
-    }
-});
-
-const DashboardView = React.createClass({
-
-  getInitialState(){
-    return {
-        user: null,
-        auth: null
-    }
-  },
-
-  renderChildrenWithState() {
-    return React.Children.map(this.props.children, (c) => 
-      React.cloneElement(c, this.getChildState())
-    )
-  },
-
-  componentWillMount(){
-    this.loadUserData();
-    this.loadAuthData();
-  },
-
-  render() {
-    return (
-      <div className="container-fluid">
-        {this.renderChildrenWithState()}
-      </div>
-    );
-  },
-
-  loadUserData(){
-    API.fetchUser().then(user => {
-        this.setState({ user: user });
-    }); 
-  },
-
-  loadAuthData(){
-    API.fetchAuth().then(auth => {
-        this.setState({ auth: auth });
-    });
-  },
-
-  render() {
-    const { user, auth} = this.state;
-    return (
-        <div>
-          <PageHeader>Dashboard</PageHeader>
-            User: { user ? user.name : '-' }
-        </div>
-    );
-  }
-});
-
+import AppContainer from './containers/AppContainer';
+import SongDashboard from './components/SongDashboard';
+import SongView from './components/SongView';
 
 render(
   <Router history={browserHistory}>
     <Route path="/a/" component={AppContainer}>
-        <IndexRoute component={DashboardView}  />
+        <IndexRoute component={SongDashboard}  />
+        <Route path="/a/song/:songId" component={SongView} />    
+        <Redirect from="*" to="/a/" />
     </Route>
-    <Redirect from="*" to="/a/x" />
-  </Router>
-, document.getElementById('react-app'));
+  </Router>, document.getElementById('react-app')
+);
