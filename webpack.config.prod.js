@@ -25,11 +25,6 @@ var config = {
         filename: 'scripts.js',
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': 'production'
-        }
-      }),
       new ExtractTextPlugin('styles.css', {
           allChunks: true
       })

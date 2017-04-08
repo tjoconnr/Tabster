@@ -6,12 +6,14 @@ import AppContainer from './containers/AppContainer';
 import SongDashboard from './components/SongDashboard';
 import SongView from './components/SongView';
 import Home from './components/Home';
+import UserProfile from './components/UserProfile';
 
 window.on
 render(
   <Router history={browserHistory}>
     <Route path="/a/" component={AppContainer}>
         <IndexRoute component={Home}  />
+        <Route path="/a/profile" component={UserProfile} />    
         <Route path="/a/songs/" component={SongDashboard} />    
         <Route path="/a/songs/:songId" component={SongView} />    
         <Redirect from="*" to="/a/" />

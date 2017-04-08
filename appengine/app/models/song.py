@@ -7,7 +7,7 @@ from google.appengine.api import memcache
 
 from _model import BaseModel
 
-class Song(BaseModel):
+class SongItem(BaseModel):
     name = ndb.StringProperty(required=True)
     artist = ndb.StringProperty()
     album = ndb.StringProperty()
@@ -22,21 +22,21 @@ class Song(BaseModel):
         cache_key = "get_song_cached: %s" % slug
         data = memcache.get(cache_key)
         if data is None:
-            data = Song.get_song(slug)
+            data = SongItem.get_song(slug)
             if data:
                 memcache.add(cache_key, data, cache_seconds)
         return data
 
     @staticmethod
     def get_song(slug):
-        return Song.get_by_key_name(slug)
+        return SongItem.get_by_key_name(slug)
 
     @staticmethod
     def update_song(name, slug, tab, song_key, modified_by, artist_slug, artist_name, album_slug, album_name):
         dt_now = datetime.datetime.now()
         song = get_song(slug)
         if not song:
-            song = Song(key_name=slug,name=name,created_by=modified_by,created_on=dt_now)
+            song = SongItem(key_name=slug,name=name,created_by=modified_by,created_on=dt_now)
 
         if artist_slug:
             song.artist = create_artist(artist_slug, artist_name)
@@ -49,8 +49,8 @@ class Song(BaseModel):
         song.song_key = song_key
         song.modified_by = modified_by
         song.modified_on = dt_now
-        song.put()
-
+        future = song.put_async()
+        future.get_result()
         logging.info("update_song(%s)" % slug)
 
     @staticmethod
@@ -58,7 +58,7 @@ class Song(BaseModel):
         cache_key = "get_songs_cached: %s,%s,%s" % (sort_order, page, limit)
         data = memcache.get(cache_key)
         if data is None:
-            data = Song.get_songs(sort_order, page, limit)
+            data = SongItem.get_songs(sort_order, page, limit)
             if data:
                 memcache.add(cache_key, data, cache_seconds)
         return data
@@ -67,7 +67,7 @@ class Song(BaseModel):
     def get_songs(sort_order="name", page=0, limit=50):
 
         # Begin query
-        q = Song.query()
+        q = SongItem.query()
 
         # Get total count
         total_records = q.count()

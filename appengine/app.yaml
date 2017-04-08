@@ -43,7 +43,7 @@ handlers:
 - url: /api/v1/.+
   script: main.app
 
-- url: /admin
+- url: /admin*
   script: main.app
   login: admin
 

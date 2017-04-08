@@ -20,7 +20,9 @@ const NavigationMain = ({ user, auth }) => (
   </Nav>
   <Nav pullRight>
     <NavDropdown eventKey={3} title={user ? user.name : '...'} id="basic-nav-dropdown">
-      <MenuItem eventKey={3.3}>Something else here</MenuItem>
+      <LinkContainer to="/a/profile">
+        <MenuItem>Manage Profile</MenuItem>
+      </LinkContainer>
       <MenuItem divider />      
       <MenuItem href={auth ? auth.logoutUrl : '/'}>Logout</MenuItem>      
     </NavDropdown>

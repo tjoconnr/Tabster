@@ -1,10 +1,9 @@
-const APIKEY = 'ahFkZXZ-b21lZ2EtdGFic3RlcnIRCxIEVXNlchiAgICAgMCvCgw';
 const API = {
     doFetch(url){
         const fetchSettings = {
             method: 'GET',
             headers: new Headers({
-                'Authorization': APIKEY
+                'Authorization': sessionStorage.getItem('userToken')
             }),
             mode: 'cors',
             cache: 'default' 
@@ -14,21 +13,18 @@ const API = {
                 return resp.json();
             }
         }).then(obj => {
-            console.log(obj);
+            console.log('GET', url, obj);
             return obj;
         });
     },
     fetchUser(){
-        return this.doFetch('/api/v1/user');
-    },
-    fetchAuth(){
-        return this.doFetch('/api/v1/authorize');
+        return this.doFetch('/api/v1/me');
     },
     fetchSongs(){
-        return this.doFetch('/api/v1/song');
+        return this.doFetch('/api/v1/song-item');
     },
     fetchSong(songId){
-        return this.doFetch('/api/v1/song/'+songId);
-    },
+        return this.doFetch('/api/v1/song-item/'+songId);
+    }
 };
 export default API;

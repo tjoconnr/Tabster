@@ -1,7 +1,5 @@
 import React from 'react';
-
 import '../../sass/App.sass';
-
 import NavigationMain from './NavigationMain';
 
 const AppComponent = ({ props, children }) => (

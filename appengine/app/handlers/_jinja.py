@@ -1,10 +1,23 @@
 #!/usr/bin/env python
 import json
+import os
 import webapp2
+
 from webapp2_extras import jinja2
 from jinja2.exceptions import TemplateNotFound
+from google.appengine.api import users
 
-from .auth import get_app_state, get_app_user
+from .constants import PATH_LOGIN, PATH_DEFAULT
+
+def get_app_state():
+    return {
+        'home': PATH_DEFAULT,
+        'loginUrl': users.create_login_url(PATH_LOGIN),
+        'logoutUrl': users.create_logout_url('/'),
+        'userEmail': users.get_current_user().email() if users.get_current_user() else None,
+        'userIsAdmin': users.is_current_user_admin(),
+        'version': os.environ['CURRENT_VERSION_ID']
+    }
 
 class JinjaHandler(webapp2.RequestHandler):
     @webapp2.cached_property
@@ -18,11 +31,7 @@ class JinjaHandler(webapp2.RequestHandler):
 
     def render(self, _template, **context):
         obj = {}
-        user = get_app_user(self)
-        obj['appState'] = {
-            "auth": get_app_state(self),
-            "user": user.to_dict() if user else None
-        }
+        obj['appState'] = get_app_state()
         obj['page'] = _template
         obj['msg'] = self.request.get('msg')
         obj.update(context)

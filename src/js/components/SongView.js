@@ -7,25 +7,24 @@ import { LinkContainer } from 'react-router-bootstrap';
 const SongView = ({ songs, params }) => {
     const song = songs.filter(song => song._id == params.songId)[0];
     return  (      
-        <Grid fluid={true}>
-                                
+        <Grid fluid={true} className="song-view">
             <Row>
                 <Col lg={2} md={3}>
                     <SongNavigation songs={songs} />
                 </Col>
                 <Col lg={10} md={9}>
-                    <Breadcrumb>
-                        <li><Link to="/a/">Home</Link></li>
-                        <li><Link to="/a/songs/">Songs</Link></li>
-                        <Breadcrumb.Item>{song ? song.name : ''}</Breadcrumb.Item>
-                    </Breadcrumb>    
                     <div>
-                        <input readOnly className="form-control input-lg" value={song ? song.name : ''} />                
+                        <input className="form-control input-lg" value={song ? song.name : ''} />                
                     </div>
                     <br />
-                    <pre>{ song ? song.tab : ''}</pre>
+                    <textarea value={ song ? song.tab : ''} readOnly />
                 </Col>
             </Row>
+            <Breadcrumb>
+                <li><Link to="/a/">Home</Link></li>
+                <li><Link to="/a/songs/">Songs</Link></li>
+                <Breadcrumb.Item>{song ? song.name : ''}</Breadcrumb.Item>
+            </Breadcrumb>   
         </Grid>
     );
 }
