@@ -4,7 +4,6 @@ import API from '../modules/API';
 
 const INITIAL_STATE = {
     user: null,
-    auth: null,
     songs: [],
     books: []
 };
@@ -17,7 +16,6 @@ const AppContainer = React.createClass({
 
   componentWillMount(){
     this.loadUserData();
-    this.loadAuthData();
     this.loadSongs();    
   },
 
@@ -25,12 +23,6 @@ const AppContainer = React.createClass({
     API.fetchUser().then(user => {
         this.setState({ user: user });
     }); 
-  },
-
-  loadAuthData(){
-    API.fetchAuth().then(auth => {
-        this.setState({ auth: auth });
-    });
   },
 
   loadSongs(){

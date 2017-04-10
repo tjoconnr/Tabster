@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import webapp2
-from app.handlers import ApiHandler, PageHandler
+from app.handlers import *
 
 #-----------------------------------------------------------------------------
 #
@@ -9,6 +9,8 @@ from app.handlers import ApiHandler, PageHandler
 #-----------------------------------------------------------------------------
 
 ROUTES = [
+    ("/login", AuthenticationHandler),
+    ("/migrate-db", DatabaseMigrationHandler),
     ("/api/v1/(.*)", ApiHandler),
     ("/(.*)", PageHandler)
 ]

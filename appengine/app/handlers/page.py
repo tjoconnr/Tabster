@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 from ._jinja import JinjaHandler
 
-from .constants import VALID_PAGES
-from .auth import do_login
+VALID_PAGES = ['index', 'admin', '401', '404', '500']
 
 class PageHandler(JinjaHandler):
     def get(self, endpoint):
         if endpoint == "":
             endpoint = "index"
-        elif endpoint == "login":
-            do_login(self)
         elif endpoint.find('a/') == 0:
             endpoint = "react"
         elif not endpoint in VALID_PAGES:

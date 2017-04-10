@@ -1,3 +1,2 @@
-PATH_DEFAULT= '/a/'
-TOKEN_HEADER = 'Authorization'
-VALID_PAGES = ['index', 'admin', '401', '404', '500']
+PATH_DEFAULT = '/a/'
+PATH_LOGIN = '/login'

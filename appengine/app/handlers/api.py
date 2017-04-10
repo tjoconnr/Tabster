@@ -3,40 +3,33 @@ import logging
 import json
 import webapp2
 
-from app.tests import run_tests
-from .constants import TOKEN_HEADER
-from .auth import authorize_api, get_app_state
+from app.models import User, model_from_string
+from ._jinja import get_app_state
 
-from app.models import *
-def string_to_model_class(s):
-    try:
-        return eval(s.title())
-    except:
-        pass
+TOKEN_HEADER = 'Authorization'
+
+def do_api_login(self):
+    self.response.headers['Content-Type'] = 'application/json'
+    token = self.request.headers.get(TOKEN_HEADER, None)
+    user = User.get_user_by_token(token)
+    if not user:
+        self.error(401)
+        return
+
+    user.track_api_hit()
+    return user
+
+def json_dump(s):
+    return json.dumps(s, indent=5, sort_keys=True)
 
 class ApiHandler(webapp2.RequestHandler):
 
-    def add_cors_headers(self):
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-        self.response.headers.add_header("Access-Control-Allow-Headers", "%s, if-none-match" % TOKEN_HEADER)
-        self.response.headers.add_header("Access-Control-Allow-Methods", "GET,POST")
-
-    def options(self, endpoint):
-        self.add_cors_headers()
-
     def get(self, endpoint):
-        self.add_cors_headers()
-
         if endpoint == "status":
             self.response.out.write("OK")
             return
 
-        if endpoint == "test":
-            run_tests(self)
-            return
-
-        user = authorize_api(self)
+        user = do_api_login(self)
         if not user:
             return
 
@@ -45,15 +38,11 @@ class ApiHandler(webapp2.RequestHandler):
             item_id = endpoint.split('/')[1]
             endpoint = endpoint.split('/')[0]
 
-        logging.info(item_id)
-
         resp = {}
-        if endpoint == "user":
+        if endpoint == "me":
             resp = user.to_dict()
-        elif endpoint == "authorize":
-            resp = get_app_state(self)
         else:
-            MyModel = string_to_model_class(endpoint)
+            MyModel = model_from_string(endpoint)
             if not MyModel:
                 self.error(500)
                 self.response.out.write("Model not found: %s" % endpoint)
@@ -64,19 +53,18 @@ class ApiHandler(webapp2.RequestHandler):
             else:
                 resp = [j.to_dict() for j in MyModel.query().order(MyModel.name).fetch(None)]
 
-        self.response.out.write(json.dumps(resp, indent=5))
+        self.response.out.write(json_dump(resp))
 
 
     def post(self, endpoint):
         logging.info("ApiHandler - POST /%s" % (endpoint))
-        self.add_cors_headers()
 
-        user = authorize_api(self)
+        user = do_api_login(self)
         if not user:
             return
 
         # Parse string into Model name
-        MyModel = string_to_model_class(endpoint)
+        MyModel = model_from_string(endpoint)
         db_item = MyModel(**self.request.POST)
         db_item.put()
-        self.response.write(json.dumps(db_item.to_dict()))
+        self.response.write(json_dump(db_item.to_dict()))
